@@ -1,12 +1,12 @@
 .form-container {
   display: flex;
-  flex-direction: row; /* Horizontal */
+  flex-direction: row; /* horizontal */
+  flex-wrap: wrap; /* pour que ça ne déborde pas */
 }
 
-/* 🔽 Quand l'écran est plus petit que 768px */
+/* On ne change rien dans le media query si tu veux rester horizontal */
 @media (max-width: 768px) {
   .form-container {
-    flex-direction: column; /* Vertical */
+    flex-direction: row; /* toujours horizontal sur mobile */
   }
 }
-
