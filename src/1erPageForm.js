@@ -1,17 +1,17 @@
-import React,{useState} from "react";
-function PageForm(){
-    const [firstname,setfirstname]=useState('')
-    const [lastname,setlastname]=useState('')
-    const [Gender,setGender]=useState('')
-    const [age,setage]=useState('')
-    const [email,setemail]=useState('')
-    const [level,setlevel]=useState('')
-    const [condition,setcondition]=useState(false)
-    
-    const [errors, setErrors] = useState([]);
+import React, { useState } from "react";
+
+function PageForm() {
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [Gender, setGender] = useState('');
+  const [age, setAge] = useState('');
+  const [email, setEmail] = useState('');
+  const [level, setLevel] = useState('');
+
+  const [errors, setErrors] = useState({});
 
   const validateForm = () => {
-    let newErrors = [];
+    let newErrors = {};
 
     if (!firstname.trim()) newErrors.firstname = "Please enter your first name.";
     if (!lastname.trim()) newErrors.lastname = "Please enter your last name.";
@@ -19,10 +19,10 @@ function PageForm(){
     if (!age.trim()) newErrors.age = "Please enter your age.";
     if (!email.trim()) newErrors.email = "Please enter your email.";
     if (!level.trim()) newErrors.level = "Please select your level.";
-    if (!condition) newErrors.condition = "You must agree to the rules.";
 
     setErrors(newErrors);
 
+    return Object.keys(newErrors).length === 0;
   };
 
   const next = (e) => {
@@ -32,41 +32,110 @@ function PageForm(){
     }
   };
 
-    return(
-        <div>
-            <form onSubmit={next}>
-                   {/* FIRST NAME */}
-        <div style={{ marginBottom: "15px" }}>
+  return (
+    <div className="container d-flex justify-content-center mt-5">      <div className="card shadow p-4">
+      <div className="card shadow p-4" style={{ maxWidth: "450px", width: "100%" }}>
+        <h3 className="text-center mb-3">Registration Form</h3>
+
+        <form onSubmit={next}>
+
+          {/* First & Last Name */}
+          <div className="mb-3">
+            <label className="form-label">First Name</label>
+            <input className="form-control" type="text" placeholder="Enter first name" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+            {errors.firstname && <p className="text-danger">{errors.firstname}</p>}
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Last Name</label>
+            <input className="form-control" type="text" placeholder="Enter last name" value={lastname} onChange={(e) => setLastname(e.target.value)}
+            />
+            {errors.lastname && <p className="text-danger">{errors.lastname}</p>}
+          </div>
+
+          {/* Gender */}
+          <div className="mb-3">
+            <label className="form-label">Gender</label>
+            <div>
+              <div className="form-check form-check-inline">
+                <input className="form-check-input" type="radio" name="gender" value="Male" onChange={(e) => setGender(e.target.value)}/>
+                <label className="form-check-label">Male</label>
+              </div>
+
+              <div className="form-check form-check-inline">
+                <input 
+                  className="form-check-input" 
+                  type="radio" 
+                  name="gender" 
+                  value="Female"
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <label className="form-check-label">Female</label>
+              </div>
+            </div>
+            {errors.Gender && <p className="text-danger">{errors.Gender}</p>}
+          </div>
+
+          {/* Age */}
+          <div className="mb-3">
+            <label className="form-label">Age</label>
+            <input
+              className="form-control"
+              type="number"
+              placeholder="Enter age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+            />
+            {errors.age && <p className="text-danger">{errors.age}</p>}
+          </div>
+
+          {/* Email */}
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <input
+              className="form-control"
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {errors.email && <p className="text-danger">{errors.email}</p>}
+          </div>
+
+          {/* Level */}
+          <div className="mb-4">
+  <label className="form-label fw-semibold">
+    Your programming level
+  </label>
+
+  <select
+    className="form-select form-select-lg"
+    value={level}
+    onChange={(e) => setLevel(e.target.value)}
+  >
+    <option value="">Select your level</option>
+    <option value="beginner">Beginner</option>
+    <option value="intermediate">Intermediate</option>
+    <option value="advanced">Advanced</option>
+    <option value="expert">Expert / Professional</option>
+    <option value="no-experience">No programming experience</option>
+  </select>
+
+  {errors.level && (
+    <p className="text-danger mt-1">{errors.level}</p>
+  )}
+</div>
+
+
+           <button className="btn btn-primary w-100" type="submit">
+            Submit
+          </button>
           
-                <label>First Name</label>
-                <input type="text" value={firstname} placeholder="Enter your first name" onChange={(e)=>setfirstname(e.target.value)}/><br/><br/>
-                {errors.firstname && (<p style={{ color: "red", margin: "0" }}>{errors.firstname}</p>)}
-                 <label>Last Name</label>
-                <input type="text" value={lastname} placeholder="Enter your last name" onChange={(e)=>setlastname(e.target.value)}/><br/><br/>
-                {errors.lastname && (<p style={{ color: "red", margin: "0" }}>{errors.lastname}</p>)}
+        </form>
         </div>
-                <label>What is your gender ?</label>
-                <input type="radio" name="g" value='Male'onChange={(e)=>setGender(e.target.value)}/>Male
-                <input type="radio" name="g" value='Female'onChange={(e)=>setGender(e.target.value)}/>Female <br/><br/>
-                {errors.Gender && (<p style={{ color: "red", margin: "0" }}>{errors.Gender}</p>)}
-                <label>your age ?</label>
-                <input type="number" placeholder="your age" value={age} onChange={(e)=>setage(e.target.value)}/>
-                 <label>Email</label>
-                <input type="email" placeholder=" your email " value={email} onChange={(e)=>setemail(e.target.value)}/>
-                 <label>What is your level?</label>
-                <select value={level} onChange={(e)=>setlevel(e.target.value)}>
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate">Intermediate</option>
-                     <option value="advanced">Advanced</option>
-                  </select><br/>
-                    <label></label>
-                    <input type="checkbox"  checked={condition} onChange={(e)=>setcondition(e.target.value)} />I agree to the rules
-                   <p class="warning">Remember: Don't cheat during the quiz!</p>
-                   {/* {errors && <p style={{ color: "red" }}>{errors}</p>} */}
-                   <button type="submit">Submit</button>
+      </div>
+    </div>
+  );
+}
 
-            </form>
-        </div>
-    )
-
-}export default PageForm
+export default PageForm;
